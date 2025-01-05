@@ -44,5 +44,12 @@ VALIDATE $? "Enablling mysql server"
 systemctl start mysqld &>>$LOG_FILE_NAME
 VALIDATE $? "Starting mysql server"
 
-mysql_secure_installation --set-root-pass Ajay@321
-VALIDATE $? "setting root password"
+mysql -h mysql.ajay-juturu.site -u root -pAjay@321
+if [ $? -ne 0 ]
+then
+  echo "Mysql root password not setup" &>>$LOG_FILE_NAME
+  mysql_secure_installation --set-root-pass Ajay@321
+  VALIDATE $? "setting Root Password"
+else
+  echo -e "Mysql root password already setup... $Y SKIPPING $N"
+fi
