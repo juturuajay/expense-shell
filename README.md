@@ -1,1 +1,1 @@
-# expense-shell
+# expense project using shell scripting
