@@ -34,13 +34,13 @@ echo "Script started executing at: $TIMESTAMP" &>>$LOG_FILE_NAME
 CHECK_ROOT
 
 dnf module disable nodejs -y &>>$LOG_FILE_NAME
-VALIDATE $? "Disabling existing default nodejs"
+VALIDATE $? "Disabling existing default NodeJS"
 
 dnf module enable nodejs:20 -y &>>$LOG_FILE_NAME
 VALIDATE $? "Enabling NodeJS 20"
 
 dnf install nodejs -y &>>$LOG_FILE_NAME
-VALIDATE $? "Installing nodejs"
+VALIDATE $? "Installing NodeJS"
 
 id expense &>>$LOG_FILE_NAME
 if [ $? -ne 0 ]
@@ -73,7 +73,7 @@ cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.serv
 dnf install mysql -y &>>$LOG_FILE_NAME
 VALIDATE $? "Installing MySQL Client"
 
-mysql -h mysql.daws82s.online -uroot -pAjay@321 < /app/schema/backend.sql &>>$LOG_FILE_NAME
+mysql -h mysql.ajay-juturu.site -uroot -pAjay@321 < /app/schema/backend.sql &>>$LOG_FILE_NAME
 VALIDATE $? "Setting up the transactions schema and tables"
 
 systemctl daemon-reload &>>$LOG_FILE_NAME
