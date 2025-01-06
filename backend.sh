@@ -51,14 +51,15 @@ else
     echo -e "expense user already exists ... $Y SKIPPING $N"
 fi
 
-mkdir /app &>>$LOG_FILE_NAME
-VALIDATE $? "creating app directory"
+mkdir -p /app &>>$LOG_FILE_NAME
+VALIDATE $? "Creating app directory"
 
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE_NAME
-VALIDATE &? "Downloading backend"
+VALIDATE $? "Downloading backend"
 
 cd /app
- 
+rm -rf /app/*
+
 unzip /tmp/backend.zip &>>$LOG_FILE_NAME
 VALIDATE $? "unzip backend"
 
@@ -67,19 +68,19 @@ VALIDATE $? "Installing dependencies"
 
 cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service
 
-#prepare mysql schema
+# Prepare MySQL Schema
 
 dnf install mysql -y &>>$LOG_FILE_NAME
-VALIDATE $? "installing mysql client"
+VALIDATE $? "Installing MySQL Client"
 
-mysql -h mysql.ajay-juturu.site -uroot -pAjay@321 < /app/schema/backend.sql &>>$LOG_FILE_NAME
-VALIDATE $? "setting up the transactions schema and tables"
+mysql -h mysql.daws82s.online -uroot -pAjay@321 < /app/schema/backend.sql &>>$LOG_FILE_NAME
+VALIDATE $? "Setting up the transactions schema and tables"
 
 systemctl daemon-reload &>>$LOG_FILE_NAME
-VALIDATE $? "Daemon reload"
+VALIDATE $? "Daemon Reload"
 
 systemctl enable backend &>>$LOG_FILE_NAME
 VALIDATE $? "Enabling backend"
 
-systemctl start backend &>>$LOG_FILE_NAME
-VALIDATE $? "start backend"
+systemctl restart backend &>>$LOG_FILE_NAME
+VALIDATE $? "Starting Backend"
