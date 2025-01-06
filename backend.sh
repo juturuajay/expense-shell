@@ -34,13 +34,13 @@ echo "Script started executing at: $TIMESTAMP" &>>$LOG_FILE_NAME
 CHECK_ROOT
 
 dnf module disable nodejs -y &>>$LOG_FILE_NAME
-VALIDATE $? "Disabling existing default NodeJS"
+VALIDATE $? "Disabling existing default nodejs"
 
 dnf module enable nodejs:20 -y &>>$LOG_FILE_NAME
 VALIDATE $? "Enabling NodeJS 20"
 
 dnf install nodejs -y &>>$LOG_FILE_NAME
-VALIDATE $? "Installing NodeJS"
+VALIDATE $? "Installing nodejs"
 
 id expense &>>$LOG_FILE_NAME
 if [ $? -ne 0 ]
